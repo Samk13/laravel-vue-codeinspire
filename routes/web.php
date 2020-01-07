@@ -14,11 +14,13 @@
 use Illuminate\Support\Facades\DB;
 
 
-Route::get('/', function () {
-    $posts = DB::table('posts')->get();
-    return view('welcome')->with('posts', $posts);
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/{any}', 'HomeController@index')->where('any', '.*');

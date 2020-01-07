@@ -5,14 +5,47 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 
+// moment for time formating
+import moment from 'moment';
 
+// vform stuff 
+import { Form, HasError, AlertError } from "vform";
+window.Form = Form;
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
+
+// vue progress bar
+
+import VueProgressBar from "vue-progressbar";
+Vue.use(VueProgressBar, {
+    color: "rgb(143, 255, 199)",
+    failedColor: "red",
+    height: "5px"
+});
+
+// sweet alert  start ---
+const Swal = require("sweetalert2");
+window.swal = Swal;
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    onOpen: toast => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+    }
+});
+window.toast = Toast;
+// sweet alert  end ---
+
+
+// vuerouter stuff
 import VueRouter from 'vue-router';
-
 Vue.use(VueRouter);
-
 
 let routes = [
     {
@@ -20,12 +53,30 @@ let routes = [
         component: require("./components/Dashboard.vue").default
     },
     {
+        path: "/users",
+        component: require("./components/Users.vue").default
+    },
+    {
         path: "/profile",
         component: require("./components/Profile.vue").default
     }
 ];
 
-let router = new VueRouter({routes: routes});
+let router = new VueRouter({
+    mode: 'history',
+    routes,
+
+});
+
+
+// vue global filters 
+Vue.filter('toUpper', function (text){
+    return text.charAt(0).toUpperCase() + text.slice(1);
+});
+
+Vue.filter('datePretty', function(tid){
+    return moment(tid).format('MMMM Do YYYY');
+});
 
 /**
  * The following block of code may be used to automatically register your

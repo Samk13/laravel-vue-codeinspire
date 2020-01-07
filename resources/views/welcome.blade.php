@@ -81,11 +81,13 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Welcome to Sam website 
+                    <br>
+                    🐱‍👤
                 </div>
                 <section>
                     <div>
-                        {{ $posts }}
+                     
                     </div>
                 </section>
 
